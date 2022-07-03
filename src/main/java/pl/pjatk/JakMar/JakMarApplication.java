@@ -1,13 +1,26 @@
 package pl.pjatk.JakMar;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
+@RestController
+@RequestMapping("/nbp")
 public class JakMarApplication {
+	final NBPService nbpService;
 
-	public static void main(String[] args) {
-		SpringApplication.run(JakMarApplication.class, args);
+	public JakMarApplication(NBPService nbpService) {
+		this.nbpService = nbpService;
+	}
+
+	@GetMapping("/waluta/{code}/{waluta}/{startDate}/{endDate}")
+	public NBPEntity all(@PathVariable String code, @PathVariable String waluta, @PathVariable  String startDate, @PathVariable String endDate){
+		return nbpService.getWaluta(code,waluta,startDate,endDate);
+	}
+	@GetMapping("/zloto")
+	public String all2(){
+		return nbpService.getZloto();
 	}
 
 }
